@@ -1,4 +1,6 @@
 <?php
+ini_set('session.use_only_cookies', 1);
+session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax']);
 session_start();
 require 'conexion.php';
 $error = '';
@@ -28,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Validar contraseña 
     if ($usuario && password_verify($password, $usuario['password'])) {
+        session_regenerate_id(true);
         // Crear las variables de sesión
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['nombre_usuario'] = $usuario['nombre'];

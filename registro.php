@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validación en el servidor (Requisito de rúbrica)
     if (empty($nombre) || empty($correo) || empty($password)) {
         $mensaje = "Error: Todos los campos son obligatorios.";
+    } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        $mensaje = "Error: El formato del correo electrónico no es válido.";
     } else {
         // 1. Valida que el correo no exista previamente
         $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE correo = :correo");
